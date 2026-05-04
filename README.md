@@ -3,6 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blue)](https://claude.ai/code)
 
+<p align="center"><img src="leidi-logo.png" alt="LeidiCleanup" width="300"></p>
+
 **LeidiCleanup Skill** is a Claude Code skill that ensures clean, efficient package installations by automatically cleaning up failed remnants before retrying. Born from real-world frustration with broken WSL/MSYS2/npm installations that left gigabytes of garbage behind, Leidi treats your disk with the respect it deserves.
 
 > *"If something fails, don't just try again — clean up the corpse first."* — Leidi's philosophy
