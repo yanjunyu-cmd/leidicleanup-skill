@@ -59,6 +59,40 @@ Install attempt
 
 ## Cleanup Procedures by Tool
 
+### Windows Software Uninstall
+**CRITICAL — Cover ALL software, not just dev tools**: After uninstalling any software, scan and remove these residual locations. Windows uninstallers are notoriously lazy and leave GBs of garbage.
+
+```bash
+# Standard residual paths for ANY uninstalled program
+rm -rf "/c/Users/烟云/AppData/Local/<ProgramName>" 2>/dev/null
+rm -rf "/c/Users/烟云/AppData/Roaming/<ProgramName>" 2>/dev/null
+rm -rf "/c/Users/烟云/AppData/LocalLow/<ProgramName>" 2>/dev/null
+rm -rf "/c/Program Files/<ProgramName>" 2>/dev/null
+rm -rf "/c/Program Files (x86)/<ProgramName>" 2>/dev/null
+rm -rf "/c/ProgramData/<ProgramName>" 2>/dev/null
+# Registry remnants (use reg query to find)
+reg query "HKCU\Software\<ProgramName>" 2>/dev/null
+reg query "HKLM\SOFTWARE\<ProgramName>" 2>/dev/null
+# Start menu shortcuts
+rm -f "/c/Users/烟云/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/<ProgramName>*" 2>/dev/null
+# Temp files
+rm -rf "/c/Users/烟云/AppData/Local/Temp/<ProgramName>*" 2>/dev/null
+# Desktop shortcuts
+rm -f "/c/Users/烟云/Desktop/<ProgramName>*.lnk" 2>/dev/null
+# Download leftovers (installers)
+rm -f "/c/Users/烟云/Downloads/<ProgramName>*.exe" 2>/dev/null
+rm -f "/c/Users/烟云/Downloads/<ProgramName>*.msi" 2>/dev/null
+```
+
+**Common software with known residual issues**:
+- **Node.js/npm**: `%AppData%/npm-cache`, `%AppData%/npm`, `%LocalAppData%/npm-cache`
+- **Python/pip**: `%AppData%/pip`, `%LocalAppData%/pip`, `%AppData%/Python`
+- **VS Code**: `%AppData%/Code`, `%LocalAppData%/Programs/Microsoft VS Code`
+- **WPS Office**: `%AppData%/Kingsoft`, `%LocalAppData%/Kingsoft`
+- **Electron apps**: `%AppData%/<app-name>`, `%LocalAppData%/<app-name>`
+- **Git**: `%AppData%/GitKraken`, `%LocalAppData%/GitHubDesktop`
+- **Docker**: `%AppData%/Docker`, `%LocalAppData%/Docker`, `%ProgramData%/Docker`
+
 ### WSL
 ```bash
 # Remove failed distros
