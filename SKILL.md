@@ -126,6 +126,30 @@ ls /c/Users/烟云/Desktop/*.png /c/Users/烟云/Desktop/*.jpg 2>/dev/null | whi
   esac
 done
 
+### Dead Code / Orphaned Files
+**CRITICAL — REMOVE UNUSED CODE**: After every code change, check for and DELETE code that is no longer called. This prevents code rot, reduces token waste, and keeps projects maintainable.
+
+**When to scan**:
+- After removing a feature → delete all related code
+- After refactoring → delete old approach entirely  
+- After generating replacement images → delete old images immediately
+- After HTML/JS revisions → remove deprecated handlers and unused CSS
+
+**Self-audit after every session**:
+1. "Did I add code that replaces old code?" → **Delete old code**
+2. "Did I generate new images that supersede old ones?" → **Delete old images**
+3. "Are there variables/functions I declared but never call?" → **Delete them**
+4. "Did I leave debug console.log statements?" → **Clean them**
+
+```bash
+# Find orphaned JS functions (no callers)
+grep -rn "function oldFunc" /e/LeidiDesktopPet/ --include="*.js"
+# Find unused assets
+find /e/LeidiDesktopPet/assets/ -name "*.png" | while read img; do
+  grep -rq "$(basename $img)" /e/LeidiDesktopPet/ || echo "ORPHAN: $img"
+done
+```
+
 ## Installation Record Format
 
 After each cleanup, record in `E:\ClaudeMemory\install_log.md`:

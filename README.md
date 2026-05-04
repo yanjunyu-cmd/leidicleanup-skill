@@ -5,9 +5,9 @@
 
 <p align="center"><img src="leidi-logo.png" alt="LeidiCleanup" width="300"></p>
 
-**LeidiCleanup Skill** is a Claude Code skill that ensures clean, efficient package installations by automatically cleaning up failed remnants before retrying. Born from real-world frustration with broken WSL/MSYS2/npm installations that left gigabytes of garbage behind, Leidi treats your disk with the respect it deserves.
+**LeidiCleanup Skill** is a Claude Code skill that keeps your development environment spotless. It automatically cleans failed installation residuals, deletes wrong AI-generated images before regeneration, removes orphaned dead code after refactoring, and tracks every cleanup for audit. Born from real-world frustration with broken WSL/MSYS2/npm installations, wrong-face AI portraits piling up on the desktop, and bloated projects with unused code that nobody bothered to delete. Leidi treats your disk — and your codebase — with the respect they deserve.
 
-> *"If something fails, don't just try again — clean up the corpse first."* — Leidi's philosophy
+> *"If something fails, don't just try again — clean up the corpse first. If code is dead, bury it. If an image is wrong, delete it before you redraw. No loose ends, no digital litter."* — Leidi's philosophy
 
 ## What It Does
 
@@ -17,6 +17,8 @@
 | npm crashes mid-install, node_modules stuck | Cleans `.staging`, `.cache`, runs `npm cache clean` |
 | pacman lock file blocks all package operations | Removes `db.lck`, fixes broken databases |
 | curl downloads error pages saved as real files | Finds `<1KB` "downloads" and deletes them |
+| Wrong-face AI images pile up on desktop | **Delete-Before-Regenerate rule** — removes bad outputs first |
+| Dead functions, unused CSS, orphaned assets accumulate | **Dead Code Scanner** — finds and removes code no longer called |
 | Trying the same broken method 10 times | Tracks attempts, forces alternative after 3 failures |
 
 ## Installation
