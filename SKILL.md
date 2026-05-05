@@ -1,11 +1,12 @@
 ---
 name: leidicleanup-skill
 description: |
-  Automated cleanup and retry manager for package installations and downloads.
-  When any installation fails, this skill automatically identifies and removes
-  residual files, partial downloads, and broken dependencies before attempting
-  the next method. Prevents disk waste from failed attempts and ensures clean
-  environment for each retry.
+  Automated cleanup and retry manager for package installations, downloads,
+  desktop organization, and code cleanup. When any installation fails, this
+  skill automatically identifies and removes residual files, partial downloads,
+  and broken dependencies before attempting the next method. Also manages
+  desktop file organization with auto-watcher and inventory reporting.
+  Prevents disk waste from failed attempts and ensures clean environment.
 allowed-tools:
   - Bash
   - Read
@@ -16,7 +17,8 @@ allowed-tools:
 metadata:
   trigger: |
     Installation failure, download error, retry, cleanup, "try another way",
-    "换一种方法", package manager errors
+    "换一种方法", package manager errors, organize desktop, 整理桌面,
+    clean desktop, desktop cleanup, auto-organize, 自动整理
   author: yanjunyu-cmd
   repository: https://github.com/yanjunyu-cmd/leidicleanup-skill
 ---
@@ -192,6 +194,51 @@ After each cleanup, record in `E:\ClaudeMemory\install_log.md`:
 |------|---------|--------|--------|---------|
 | HH:MM | name | wsl/curl/pacman | fail/success | removed X files (Y MB) |
 ```
+
+### Desktop Organization & Auto-Watcher
+**CRITICAL — Keep the desktop clean at all times**: The desktop pet project (`E:/LeidiDesktopPet/`) includes a desktop organization system that can be invoked directly from this skill.
+
+**Trigger keywords**: 整理桌面, clean desktop, organize desktop, desktop cleanup, auto organize, 自动整理
+
+**How to invoke**:
+```bash
+# One-time desktop organization + report generation
+cd "E:/LeidiDesktopPet" && node -e "
+const { organizeDesktop, generateReport } = require('./js/desktop-cleaner');
+const result = organizeDesktop();
+const report = generateReport();
+console.log('Moved:', result.moved, 'files into', result.folders.length, 'folders');
+console.log('Report updated:', report.totalFiles, 'total files tracked');
+console.log('Errors:', result.errors.length);
+"
+
+# Check desktop cleanliness
+ls -la "/c/Users/烟云/Desktop/" | grep -v "^d" | grep -v "desktop.ini" | wc -l
+```
+
+**File categorization rules** (Chinese-named folders):
+| Folder | Extensions |
+|---|---|
+| 图片 | .jpg/.jpeg/.png/.gif/.bmp/.webp/.svg/.ico/.psd/.ai/.raw/.tiff/.tif/.heic |
+| 文档 | .doc/.docx/.pdf/.txt/.xls/.xlsx/.ppt/.pptx/.csv/.md/.rtf/.odt/.wps |
+| 压缩包 | .zip/.rar/.7z/.tar/.gz/.bz2/.xz/.iso |
+| 视频 | .mp4/.avi/.mkv/.mov/.wmv/.flv/.webm |
+| 音频 | .mp3/.wav/.flac/.aac/.ogg/.wma/.m4a |
+| 程序 | .exe/.msi/.bat/.cmd/.ps1/.sh/.apk |
+| 代码 | .js/.py/.java/.c/.cpp/.h/.html/.css/.json/.xml/.ts/.rs/.go |
+| 快捷方式 | .lnk/.url |
+| 其他 | everything else |
+
+**Auto-watcher mode**: When the desktop pet is running, it automatically monitors the desktop every 60 seconds and organizes any new loose files. The inventory report (`蕾蒂的桌面整理报告.txt`) is updated automatically. Toggle via right-click menu → "🔄 自动整理".
+
+**Protected files** (never moved by organizer):
+- `蕾蒂的桌面整理报告.txt`
+- `蕾蒂的整理报告.lnk`
+- `蕾蒂管家.png`
+- `蕾蒂管家.ico`
+- `desktop.ini`
+
+**Integration rule**: Whenever the user mentions "整理桌面" or the desktop looks cluttered, invoke the organizer IMMEDIATELY. Don't ask for confirmation — just clean and report results. This is an always-authorized action for the desktop organizer.
 
 ## Integration with Other Skills
 
